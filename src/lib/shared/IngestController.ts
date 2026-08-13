@@ -25,14 +25,25 @@ function requireRunner(): IngestRunner {
 	return runner;
 }
 
+/**
+ * Ingest is exposed only where a server actually registered an implementation.
+ *
+ * These methods scrape federalreserve.org, so leaving them at `allowed: true` let
+ * anyone who knew the endpoint drive outbound traffic and billed compute — hiding the
+ * button only removed them from the UI. Deployments that serve the read-only bundled
+ * database never register a runner, so remult rejects the call before the method body
+ * runs and nothing is fetched.
+ */
+const ingestAvailable = () => runner !== undefined;
+
 export class IngestController {
-	@BackendMethod({ allowed: true })
+	@BackendMethod({ allowed: ingestAvailable })
 	static async refresh(year: number): Promise<IngestReport> {
 		return requireRunner()(year, { force: false });
 	}
 
 	/** Re-fetch from the Fed rather than reusing the on-disk HTML cache. */
-	@BackendMethod({ allowed: true })
+	@BackendMethod({ allowed: ingestAvailable })
 	static async refreshFromSource(year: number): Promise<IngestReport> {
 		return requireRunner()(year, { force: true });
 	}
