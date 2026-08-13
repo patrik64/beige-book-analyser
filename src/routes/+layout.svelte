@@ -2,6 +2,7 @@
 	import '../app.css';
 	import { page } from '$app/state';
 	import { theme } from '$lib/charts/theme.svelte';
+	import Footer from '$lib/components/Footer.svelte';
 
 	let { children } = $props();
 
@@ -55,12 +56,17 @@
 </main>
 
 <footer class="shell">
-	<p>
-		Source text: <a href="https://www.federalreserve.gov/monetarypolicy/publications/beige-book-default.htm">
-			Federal Reserve Beige Book</a
-		>. Sentiment is computed locally with a lexicon tuned to the report's own vocabulary — it is a
-		reading aid, not an economic indicator.
-	</p>
+	<div class="inner">
+		<p>
+			Source text: <a
+				href="https://www.federalreserve.gov/monetarypolicy/publications/beige-book-default.htm"
+			>
+				Federal Reserve Beige Book</a
+			>. Sentiment is computed locally with a lexicon tuned to the report's own vocabulary — it is a
+			reading aid, not an economic indicator.
+		</p>
+		<Footer />
+	</div>
 </footer>
 
 <style>
@@ -131,11 +137,18 @@
 		padding-bottom: 2.5rem;
 	}
 
+	.inner {
+		display: flex;
+		align-items: flex-start;
+		justify-content: space-between;
+		gap: 1.5rem;
+		border-top: 1px solid var(--border);
+		padding-top: 1rem;
+	}
+
 	footer p {
 		color: var(--muted);
 		font-size: 0.78rem;
-		border-top: 1px solid var(--border);
-		padding-top: 1rem;
 		margin: 0;
 		max-width: 70ch;
 	}
