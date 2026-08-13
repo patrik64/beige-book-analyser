@@ -67,10 +67,12 @@
 	<div class="empty">
 		<h2>No data yet</h2>
 		<p>Run <code>pnpm ingest --all</code>, or pull this year's releases straight from the Fed.</p>
-		<button onclick={refresh} disabled={refreshing}>
-			{refreshing ? 'Fetching…' : 'Fetch latest releases'}
-		</button>
-		{#if refreshError}<p class="error">{refreshError}</p>{/if}
+		{#if data.canIngest}
+			<button onclick={refresh} disabled={refreshing}>
+				{refreshing ? 'Fetching…' : 'Fetch latest releases'}
+			</button>
+			{#if refreshError}<p class="error">{refreshError}</p>{/if}
+		{/if}
 	</div>
 {:else}
 	<div class="head">
@@ -83,9 +85,11 @@
 					?.label} — reads <strong>{toneWord}</strong>.
 			</p>
 		</div>
-		<button onclick={refresh} disabled={refreshing} title="Fetch any new releases from the Fed">
-			{refreshing ? 'Refreshing…' : '↻ Refresh'}
-		</button>
+		{#if data.canIngest}
+			<button onclick={refresh} disabled={refreshing} title="Fetch any new releases from the Fed">
+				{refreshing ? 'Refreshing…' : '↻ Refresh'}
+			</button>
+		{/if}
 	</div>
 
 	{#if refreshError}<p class="error">{refreshError}</p>{/if}

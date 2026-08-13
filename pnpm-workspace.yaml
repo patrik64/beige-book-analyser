@@ -1,2 +1,6 @@
+allowBuilds:
+  # adapter-vercel bundles the serverless entrypoint with esbuild, which needs its
+  # platform binary from the postinstall script.
+  esbuild: true
 minimumReleaseAgeExclude:
   - svelte@5.56.9

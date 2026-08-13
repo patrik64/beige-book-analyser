@@ -5,6 +5,7 @@ import {
 	nationalTrend,
 	paceTrend
 } from '$lib/server/queries';
+import { READ_ONLY } from '$lib/server/db';
 import type { PageServerLoad } from './$types';
 
 export const load = (async ({ url }) => {
@@ -21,5 +22,7 @@ export const load = (async ({ url }) => {
 		paceTrend(year)
 	]);
 
-	return { years, year, stats, longRun, trend, matrix, pace };
+	// Ingest writes to SQLite, which the deployed copy cannot do — the button is only
+	// meaningful where the database is writable.
+	return { years, year, stats, longRun, trend, matrix, pace, canIngest: !READ_ONLY };
 }) satisfies PageServerLoad;
