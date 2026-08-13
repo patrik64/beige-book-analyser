@@ -80,6 +80,21 @@ Details that matter:
 Each stored section keeps the character offsets of its scoring terms, which is what
 lets the UI highlight them inline in the report text.
 
+### The baseline is zero, and it is absolute
+
+Every chart is anchored at **0**, which means the directional language in that passage
+balanced out — not that conditions were average. There is no historical mean, no
+per-district baseline and no detrending anywhere in the app, so a district sitting near
+zero for a decade is one the Fed kept describing in balanced terms, not one performing
+at its own long-run norm. Because Prices sections are inverted before storage, the sign
+means the same thing on every chart: below zero is bad news.
+
+A section reaches zero three ways — increases and decreases cancelling out, flat
+language ("unchanged", "little changed") which carries a weight of exactly 0, or no
+scoring hits at all. That last case is worth knowing about: a section the scorer found
+nothing in is indistinguishable from a genuinely balanced one once it is a point on a
+line.
+
 ## Colour
 
 Sentiment uses a **blue ↔ red** diverging scale with a neutral gray midpoint, not the
@@ -87,6 +102,18 @@ conventional green ↔ red: red still means bad news, but red/green is the most 
 colour-blind failure. Every palette was checked for lightness banding, chroma, CVD
 separation and contrast rather than picked by eye, and every chart also ships a table
 view.
+
+Zero is where that scale pivots, but **no chart draws a zero line**. It is implied by a
+symmetric axis — the national trend is pinned to ±0.75, the small multiples suggest
+±0.5, the ranked bars diverge from it — by the gridline that lands there, and by the
+colour flip. On the heatmap the pivot carries a dead band: `|score| < 0.05` renders as
+the neutral gray rather than the palest arm, and the arms beyond it are banded rather
+than linear, because the scores cluster tightly enough that a linear ramp would render
+the whole grid blank.
+
+That dead band is not the same width as the one the text labels use. `divergingColor`
+treats ±0.05 as neutral while `sentimentLabel` treats ±0.1 as neutral, so a section at
+0.07 shows a faintly positive heatmap cell next to a badge reading "neutral".
 
 ## Layout
 
