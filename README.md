@@ -6,6 +6,10 @@ sentiment produces. Covers **2003–2026 — 188 releases, 19,400 sections, 2.9M
 
 SvelteKit + Remult + local SQLite. No API keys, no external services.
 
+## Try
+
+live at https://beige-book-analyser.vercel.app/
+
 ## Quick start
 
 ```sh
