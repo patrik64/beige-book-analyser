@@ -1,0 +1,332 @@
+/*
+ * Tokens mirror src/lib/charts/palette.ts — canvas can't read CSS custom
+ * properties, so the two must be kept in step. Light values are defined on bare
+ * :root; dark is redefined under both the OS media query and the [data-theme]
+ * stamp, so an explicit toggle wins in either direction.
+ */
+:root {
+	color-scheme: light;
+
+	--surface: #fcfcfb;
+	--page: #f9f9f7;
+	--raised: #ffffff;
+	--gridline: #e1e0d9;
+	--axis: #c3c2b7;
+	--border: rgba(11, 11, 11, 0.1);
+
+	--text-primary: #0b0b0b;
+	--text-secondary: #52514e;
+	--muted: #898781;
+
+	--series-1: #2a78d6;
+	--series-2: #eb6834;
+	--series-3: #1baf7a;
+
+	--neg-4: #d03b3b;
+	--neg-3: #e56d6b;
+	--neg-2: #f3a9a7;
+	--neg-1: #fbd9d8;
+	--zero: #f0efec;
+	--pos-1: #cde2fb;
+	--pos-2: #9ec5f4;
+	--pos-3: #5598e7;
+	--pos-4: #2a78d6;
+
+	--accent: #2a78d6;
+	--highlight-pos: rgba(42, 120, 214, 0.16);
+	--highlight-neg: rgba(208, 59, 59, 0.16);
+	--highlight-flat: rgba(137, 135, 129, 0.16);
+
+	--radius: 10px;
+	--font: system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme='light']) {
+		color-scheme: dark;
+
+		--surface: #1a1a19;
+		--page: #0d0d0d;
+		--raised: #212120;
+		--gridline: #2c2c2a;
+		--axis: #383835;
+		--border: rgba(255, 255, 255, 0.1);
+
+		--text-primary: #ffffff;
+		--text-secondary: #c3c2b7;
+		--muted: #898781;
+
+		--series-1: #3987e5;
+		--series-2: #d95926;
+		--series-3: #199e70;
+
+		--neg-4: #e66767;
+		--neg-3: #d03b3b;
+		--neg-2: #9c2f2f;
+		--neg-1: #6e2020;
+		--zero: #383835;
+		--pos-1: #184f95;
+		--pos-2: #256abf;
+		--pos-3: #3987e5;
+		--pos-4: #86b6ef;
+
+		--accent: #3987e5;
+		--highlight-pos: rgba(57, 135, 229, 0.25);
+		--highlight-neg: rgba(230, 103, 103, 0.22);
+		--highlight-flat: rgba(137, 135, 129, 0.22);
+	}
+}
+
+:root[data-theme='dark'] {
+	color-scheme: dark;
+
+	--surface: #1a1a19;
+	--page: #0d0d0d;
+	--raised: #212120;
+	--gridline: #2c2c2a;
+	--axis: #383835;
+	--border: rgba(255, 255, 255, 0.1);
+
+	--text-primary: #ffffff;
+	--text-secondary: #c3c2b7;
+	--muted: #898781;
+
+	--series-1: #3987e5;
+	--series-2: #d95926;
+	--series-3: #199e70;
+
+	--neg-4: #e66767;
+	--neg-3: #d03b3b;
+	--neg-2: #9c2f2f;
+	--neg-1: #6e2020;
+	--zero: #383835;
+	--pos-1: #184f95;
+	--pos-2: #256abf;
+	--pos-3: #3987e5;
+	--pos-4: #86b6ef;
+
+	--accent: #3987e5;
+	--highlight-pos: rgba(57, 135, 229, 0.25);
+	--highlight-neg: rgba(230, 103, 103, 0.22);
+	--highlight-flat: rgba(137, 135, 129, 0.22);
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background: var(--page);
+	color: var(--text-primary);
+	font-family: var(--font);
+	line-height: 1.55;
+	-webkit-font-smoothing: antialiased;
+}
+
+a {
+	color: var(--accent);
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: underline;
+}
+
+h1,
+h2,
+h3,
+h4 {
+	line-height: 1.25;
+	margin: 0;
+	font-weight: 620;
+	letter-spacing: -0.011em;
+}
+
+h1 {
+	font-size: 1.6rem;
+}
+h2 {
+	font-size: 1.15rem;
+}
+h3 {
+	font-size: 0.98rem;
+}
+
+/* --- layout ------------------------------------------------------------- */
+
+.shell {
+	max-width: 1180px;
+	margin: 0 auto;
+	padding: 0 1.5rem 5rem;
+}
+
+.card {
+	background: var(--surface);
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	padding: 1.25rem 1.35rem;
+}
+
+.card-title {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 1rem;
+	margin-bottom: 0.15rem;
+}
+
+.card-note {
+	color: var(--muted);
+	font-size: 0.8rem;
+	margin: 0 0 1rem;
+}
+
+.grid {
+	display: grid;
+	gap: 1.1rem;
+}
+
+@media (min-width: 900px) {
+	.grid.two {
+		grid-template-columns: 1fr 1fr;
+	}
+}
+
+/* --- controls ----------------------------------------------------------- */
+
+button,
+.btn {
+	font: inherit;
+	font-size: 0.85rem;
+	color: var(--text-primary);
+	background: var(--raised);
+	border: 1px solid var(--border);
+	border-radius: 7px;
+	padding: 0.4rem 0.8rem;
+	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+}
+
+button:hover,
+.btn:hover {
+	border-color: var(--axis);
+	text-decoration: none;
+}
+
+button:disabled {
+	opacity: 0.55;
+	cursor: progress;
+}
+
+select {
+	font: inherit;
+	font-size: 0.85rem;
+	color: var(--text-primary);
+	background: var(--raised);
+	border: 1px solid var(--border);
+	border-radius: 7px;
+	padding: 0.4rem 0.6rem;
+}
+
+.controls {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.6rem;
+	margin-bottom: 1.1rem;
+}
+
+/* --- small pieces ------------------------------------------------------- */
+
+.legend {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.9rem;
+	font-size: 0.8rem;
+	color: var(--text-secondary);
+}
+
+.legend span {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35rem;
+}
+
+.swatch {
+	width: 11px;
+	height: 11px;
+	border-radius: 3px;
+	display: inline-block;
+	flex: none;
+}
+
+.badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35rem;
+	font-size: 0.74rem;
+	font-variant-numeric: tabular-nums;
+	color: var(--text-secondary);
+	border: 1px solid var(--border);
+	border-radius: 999px;
+	padding: 0.1rem 0.55rem;
+	white-space: nowrap;
+}
+
+.scroll-x {
+	overflow-x: auto;
+	max-width: 100%;
+}
+
+table {
+	border-collapse: collapse;
+	width: 100%;
+	font-size: 0.83rem;
+}
+
+th,
+td {
+	text-align: left;
+	padding: 0.4rem 0.65rem;
+	border-bottom: 1px solid var(--gridline);
+	white-space: nowrap;
+}
+
+th {
+	color: var(--text-secondary);
+	font-weight: 560;
+}
+
+td.num,
+th.num {
+	text-align: right;
+	font-variant-numeric: tabular-nums;
+}
+
+details.table-view {
+	margin-top: 0.9rem;
+}
+
+details.table-view summary {
+	cursor: pointer;
+	font-size: 0.8rem;
+	color: var(--text-secondary);
+}
+
+.empty {
+	color: var(--text-secondary);
+	background: var(--surface);
+	border: 1px dashed var(--axis);
+	border-radius: var(--radius);
+	padding: 2.5rem 1.5rem;
+	text-align: center;
+}
