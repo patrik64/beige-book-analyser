@@ -38,8 +38,15 @@ export class Release {
 	@Fields.string()
 	format = '';
 
-	@Fields.dateOnly()
-	releaseDate = new Date();
+	/**
+	 * ISO `YYYY-MM-DD`, deliberately a string rather than a `dateOnly`. Remult stores a
+	 * date-only value as local midnight of the process that wrote it, and this database
+	 * is ingested in one timezone and served in another: a Vienna-ingested July 15 read
+	 * back on a UTC server is July 14, and a release published on the 1st lands in the
+	 * previous month. A plain string has no timezone to lose and still sorts correctly.
+	 */
+	@Fields.string()
+	releaseDate = '';
 
 	/** e.g. "January 2026" */
 	@Fields.string()

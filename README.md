@@ -2,7 +2,7 @@
 
 Reads the Federal Reserve's [Beige Book](https://www.federalreserve.gov/monetarypolicy/publications/beige-book-default.htm),
 scores every section for sentiment, and presents the prose next to the charts that
-sentiment produces. Covers **2003–2026 — 188 releases, 19,400 sections, 2.9M words**.
+sentiment produces. Covers **2003–2026 — 189 releases, 19,500 sections, 2.9M words**.
 
 SvelteKit + Remult + local SQLite. No API keys, no external services.
 

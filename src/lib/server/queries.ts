@@ -54,14 +54,15 @@ export interface SectionDTO {
 const MONTH_ABBR = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 function toReleaseDTO(r: Release): ReleaseDTO {
-	const month = r.releaseDate.getUTCMonth();
+	// releaseDate is a plain YYYY-MM-DD string, so the month is read straight off it.
+	const month = Number(r.releaseDate.slice(5, 7)) - 1;
 	return {
 		id: r.id,
 		slug: r.slug,
 		label: r.label,
 		// Axis labels have to stay short once eighty releases share one chart.
 		shortLabel: `${MONTH_ABBR[month]} ${String(r.year).slice(2)}`,
-		releaseDate: r.releaseDate.toISOString().slice(0, 10),
+		releaseDate: r.releaseDate,
 		year: r.year,
 		seq: r.seq,
 		format: r.format,

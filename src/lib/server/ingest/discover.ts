@@ -32,7 +32,8 @@ export interface DiscoveredRelease {
 	seq: number;
 	/** e.g. "beigebook202601" — globally unique, and the upsert key. */
 	slug: string;
-	releaseDate: Date;
+	/** ISO YYYY-MM-DD. A string end to end — see the field comment on Release. */
+	releaseDate: string;
 	/** e.g. "January 2026" */
 	label: string;
 	format: ReleaseFormat;
@@ -142,8 +143,9 @@ export async function discoverReleases(
 		// (it is /fomc/beigebook/2005/20050119/), so one is synthesised from the date
 		// — every release still needs a stable unique key.
 		const slugMatch = href.match(/(beigebook(\d{4})(\d{2,4}))(?:-summary)?\.htm/);
-		const stamp = `${year}${String(monthIndex + 1).padStart(2, '0')}${String(day).padStart(2, '0')}`;
-		const slug = slugMatch ? slugMatch[1] : `beigebook${stamp}`;
+		const month = String(monthIndex + 1).padStart(2, '0');
+		const dayOfMonth = String(day).padStart(2, '0');
+		const slug = slugMatch ? slugMatch[1] : `beigebook${year}${month}${dayOfMonth}`;
 		const suffix = slugMatch ? slugMatch[3] : '';
 
 		const pdfLink = links.find((a) => a.text.trim().toUpperCase() === 'PDF');
@@ -154,8 +156,7 @@ export async function discoverReleases(
 			// Four-digit suffixes are a date (0531), not an ordinal; they have no seq.
 			seq: suffix.length === 2 ? Number(suffix) : 0,
 			slug,
-			// Noon UTC keeps the calendar date stable regardless of local timezone.
-			releaseDate: new Date(Date.UTC(year, monthIndex, day, 12)),
+			releaseDate: `${year}-${month}-${dayOfMonth}`,
 			label: `${dateMatch[1]} ${year}`,
 			format,
 			summaryUrl: absolute(target),
@@ -163,5 +164,6 @@ export async function discoverReleases(
 		});
 	}
 
-	return releases.sort((a, b) => a.releaseDate.getTime() - b.releaseDate.getTime());
+	// ISO dates sort correctly as strings.
+	return releases.sort((a, b) => a.releaseDate.localeCompare(b.releaseDate));
 }
