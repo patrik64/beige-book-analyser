@@ -2,7 +2,7 @@
 
 Reads the Federal Reserve's [Beige Book](https://www.federalreserve.gov/monetarypolicy/publications/beige-book-default.htm),
 scores every section for sentiment, and presents the prose next to the charts that
-sentiment produces. Covers **2003–2026 — 189 releases, 19,500 sections, 2.9M words**.
+sentiment produces. Covers **2003–2026 — 190 releases, 19,650 sections, 2.9M words**.
 
 SvelteKit + Remult + local SQLite. No API keys, no external services.
 
@@ -217,7 +217,7 @@ Remult's admin UI is available at `/api/admin` for browsing the raw tables.
 
 Aggregates run as SQL `GROUP BY` in `src/lib/server/queries.ts`, not in JavaScript.
 When this app only held 2026 it loaded every section into memory to average them;
-across 24 years that is 19,400 rows carrying 2.9M words of body text, and the page
+across 24 years that is 19,650 rows carrying 2.9M words of body text, and the page
 would have spent most of its time deserialising prose nobody was going to read. Only
 the routes that actually display text fetch `body`. Pages serve in 20–80ms.
 

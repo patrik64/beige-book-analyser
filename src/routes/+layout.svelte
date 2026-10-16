@@ -24,7 +24,7 @@
 	<title>Beige Book Analyzer</title>
 	<meta
 		name="description"
-		content="Sentiment analysis of the Federal Reserve Beige Book, 2026 releases."
+		content="Sentiment analysis of every Federal Reserve Beige Book since 2003."
 	/>
 </svelte:head>
 
